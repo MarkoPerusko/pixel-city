@@ -79,7 +79,6 @@
 			isa = PBXGroup;
 			children = (
 				43A83C0F22467A5B00FE828B /* Utilities */,
-				43A83C0E22467A4C00FE828B /* Extensions */,
 				43A83C0D22467A4300FE828B /* View */,
 				43A83C0C22467A2E00FE828B /* Controller */,
 				43A83BFA2246796A00FE828B /* AppDelegate.swift */,
@@ -107,13 +106,6 @@
 				43CB9D562247B89A0018F6B6 /* PhotoCell.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		43A83C0E22467A4C00FE828B /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Extensions;
 			sourceTree = "<group>";
 		};
 		43A83C0F22467A5B00FE828B /* Utilities */ = {
