@@ -12,7 +12,7 @@ import CoreLocation
 import Alamofire
 import AlamofireImage
 
-class MapVC: UIViewController, UIGestureRecognizerDelegate {
+class MapVC: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var pullUpView: UIView!
@@ -43,13 +43,14 @@ class MapVC: UIViewController, UIGestureRecognizerDelegate {
         addDoubleTap()
         
         addCollectionView()
+        
+        registerForPreviewing(with: self, sourceView: collectionView!)
     }
     
     // Adding tap gesture recognizer to the mapView.
     func addDoubleTap() {
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(dropPin(sender:)))
         doubleTap.numberOfTapsRequired = 2
-        doubleTap.delegate = self
         
         mapView.addGestureRecognizer(doubleTap)
     }
@@ -268,6 +269,30 @@ extension MapVC: UICollectionViewDelegate, UICollectionViewDataSource {
         cell.addSubview(imageView)
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let popVC = storyboard?.instantiateViewController(withIdentifier: "PopVC") as? PopVC else { return }
+        
+        popVC.initData(forImage: imageArray[indexPath.row])
+        present(popVC, animated: true, completion: nil)
+    }
+}
+
+extension MapVC: UIViewControllerPreviewingDelegate {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        guard let indexPath = collectionView?.indexPathForItem(at: location), let cell = collectionView?.cellForItem(at: indexPath) else { return nil }
+        guard let popVC = storyboard?.instantiateViewController(withIdentifier: "PopVC") as? PopVC else { return nil }
+        
+        popVC.initData(forImage: imageArray[indexPath.row])
+        
+        previewingContext.sourceRect = cell.contentView.frame
+        
+        return popVC
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        show(viewControllerToCommit, sender: self)
     }
     
     
