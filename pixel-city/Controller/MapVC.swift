@@ -199,6 +199,7 @@ class MapVC: UIViewController {
         }
     }
     
+    // In case user swipes down view.
     func cancelAllSessions() {
         Alamofire.SessionManager.default.session.getTasksWithCompletionHandler { (sessionDataTask, uploadData, downloadData) in
             sessionDataTask.forEach({ $0.cancel() })
